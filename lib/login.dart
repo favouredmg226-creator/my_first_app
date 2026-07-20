@@ -1,7 +1,8 @@
 import 'package:my_first_app/configs/colors.dart';
 import 'package:flutter/material.dart';
 import 'registration.dart';
-
+import 'dashboard.dart';
+import 'home.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -73,11 +74,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const HomePage()),
+                      );
+                    },
                     color: primaryColor,
-                    child: Text("Login"),
                     height: 50,
                     minWidth: 200,
+                    child: Text("Login"),
                   ),
                 ],
               ),
