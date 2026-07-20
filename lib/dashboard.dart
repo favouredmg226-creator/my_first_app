@@ -144,7 +144,7 @@ class _FoodLogList extends StatelessWidget {
 }
 
 class _AddFoodButton extends StatelessWidget {
-  const _AddFoodButton({super.key});
+  const _AddFoodButton();
 
   @override
   Widget build(BuildContext context) {
