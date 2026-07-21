@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'profile_screen.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -42,11 +43,39 @@ class _DashboardState extends State<Dashboard> {
             const SizedBox(height: 24),
             const _SectionTitle(title: "Today's Food Log"),
             const SizedBox(height: 10),
-            Expanded(
-              child: _FoodLogList(loggedMeals: loggedMeals),
-            ),
+            Expanded(child: _FoodLogList(loggedMeals: loggedMeals)),
             const SizedBox(height: 12),
             const _AddFoodButton(),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        color: Colors.white,
+        child: Row(
+          children: [
+            Expanded(
+              child: IconButton(
+                icon: const Icon(Icons.home_outlined, color: Colors.teal),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            const Expanded(child: SizedBox()),
+            Expanded(
+              child: IconButton(
+                icon: const Icon(Icons.person_outline, color: Colors.grey),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfileScreen(),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

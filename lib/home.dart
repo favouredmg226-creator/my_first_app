@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dashboard.dart';
+import 'profile_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,8 +25,8 @@ class _HomePageState extends State<HomePage> {
           _selectedIndex == 0
               ? 'Welcome'
               : _selectedIndex == 1
-                  ? 'Add view'
-                  : 'Profile view',
+              ? 'Add view'
+              : 'Profile view',
           style: const TextStyle(fontSize: 20),
         ),
       ),
@@ -62,6 +63,12 @@ class _HomePageState extends State<HomePage> {
                   setState(() {
                     _selectedIndex = 2;
                   });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfileScreen(),
+                    ),
+                  );
                 },
               ),
             ),
