@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'home.dart';
+import 'dashboard.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -61,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         centerTitle: true,
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 96.0),
         children: [
           // 1. Header Profile Banner
           const Column(
@@ -194,6 +196,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        color: Colors.white,
+        child: Row(
+          children: [
+            Expanded(
+              child: IconButton(
+                icon: const Icon(Icons.home_outlined, color: Colors.teal),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
+                },
+              ),
+            ),
+            const Expanded(child: SizedBox()),
+            Expanded(
+              child: IconButton(
+                icon: const Icon(Icons.dashboard_outlined, color: Colors.grey),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Dashboard()),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

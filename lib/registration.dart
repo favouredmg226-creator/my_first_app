@@ -1,5 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:my_first_app/configs/colors.dart';
+
+bool registering = false;
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -83,12 +88,50 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 14),
               ),
-              onPressed: () {
+              onPressed: () async {
                 final name = _nameController.text;
                 final email = _emailController.text;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Welcome $name! Your account is ready.')),
-                );
+                final password = _passwordController.text;
+
+                if (name.isEmpty || email.isEmpty || password.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please fill in all fields')),
+                  );
+                  return;
+                }
+
+                try {
+                  final response = await http.post(
+                    Uri.parse('http://127.0.0.1:80/my_first_app/register.php'),
+                    headers: {'Content-Type': 'application/json'},
+                    body: jsonEncode({
+                      'name': name,
+                      'email': email,
+                      'password': password,
+                    }),
+                  );
+
+                  final serverResponse = jsonDecode(response.body);
+                  if (serverResponse['success'] == true) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Welcome $name! Your account is ready.'),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Registration failed: ${serverResponse['message']}',
+                        ),
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('Error: $e')));
+                }
               },
               child: const Text('Register'),
             ),
