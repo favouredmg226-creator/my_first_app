@@ -17,12 +17,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
+  bool _showPassword = false;
 
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _heightController.dispose();
+    _weightController.dispose();
     super.dispose();
   }
 
@@ -73,12 +78,45 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ),
             const SizedBox(height: 16),
             TextField(
-              controller: _passwordController,
-              obscureText: true,
+              controller: _heightController,
               decoration: const InputDecoration(
-                labelText: 'Password',
-                prefixIcon: Icon(Icons.lock),
+                labelText: 'Height',
+                prefixIcon: Icon(Icons.height),
                 border: OutlineInputBorder(),
+              ),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _weightController,
+              decoration: const InputDecoration(
+                labelText: 'Weight',
+                prefixIcon: Icon(Icons.monitor_weight),
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _passwordController,
+              obscureText: !_showPassword,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                prefixIcon: const Icon(Icons.lock),
+                suffixIcon: IconButton(
+                  tooltip: _showPassword ? 'Hide password' : 'Show password',
+                  icon: Icon(
+                    _showPassword ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    setState(() => _showPassword = !_showPassword);
+                  },
+                ),
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 24),
@@ -92,8 +130,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 final name = _nameController.text;
                 final email = _emailController.text;
                 final password = _passwordController.text;
+                final height = _heightController.text;
+                final weight = _weightController.text;
 
-                if (name.isEmpty || email.isEmpty || password.isEmpty) {
+                if (name.isEmpty ||
+                    email.isEmpty ||
+                    password.isEmpty ||
+                    height.isEmpty ||
+                    weight.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Please fill in all fields')),
                   );
@@ -108,6 +152,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       'name': name,
                       'email': email,
                       'password': password,
+                      'height': height,
+                      'weight': weight,
                     }),
                   );
 
